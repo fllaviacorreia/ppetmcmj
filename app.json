@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "ppetmcmj",
+    "slug": "ppetmcmj",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
