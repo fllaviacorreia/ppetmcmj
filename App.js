@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AppNavigator } from './src/navigation/AppNavigation';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { default as theme } from './src/custom-theme.json';
+import { BackHandler } from 'react-native';
+import JailMonkey from 'jail-monkey'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+function App(){
+
+  //	is this device jail-broken/rooted.
+  //  se tiver algum problema não acessa o app
+  // if(JailMonkey.isJailBroken()){
+  //   BackHandler.exitApp();
+  // }
+
+  return(
+    <>
+    <IconRegistry icons={EvaIconsPack}/>
+      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+        <SafeAreaProvider>
+            <AppNavigator />
+        </SafeAreaProvider>
+    </ApplicationProvider>
+  </>);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
