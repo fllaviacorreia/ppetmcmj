@@ -30,7 +30,7 @@ export default function secureEntry(props) {
   };
 
   return (
-    <>
+    <View style={{justifyContent:'flex-start'}}>
       <Text>
         {props.label}
       </Text>
@@ -40,9 +40,9 @@ export default function secureEntry(props) {
           accessoryRight={renderIcon}
           secureTextEntry={secureTextEntry}
           onChangeText={nextValue => props.setValue(nextValue)}
-          size='large'
+          size='medium'
           style={styles.input} />
-      </>
+      </View>
 
       );
 

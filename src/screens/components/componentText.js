@@ -4,12 +4,13 @@ import {
   Input,
 } from '@ui-kitten/components';
 
+import { View } from 'react-native';
 import { styles } from './styles';
 
 const QuestionText = ({ title, placeholder, value, setText, type }) => {
   return (
-    <>
-      <Text> {title} </Text>
+    <View style={{justifyContent:'flex-start'}}>
+      <Text style={styles.text}> {title} </Text>
       <Input
         value={value}
         placeholder={placeholder}
@@ -18,7 +19,7 @@ const QuestionText = ({ title, placeholder, value, setText, type }) => {
         style={styles.input}
         keyboardType={type}
       />
-    </>
+    </View>
   );
 }
 

@@ -40,43 +40,44 @@ export const LoginScreen = () => {
   
   //valida entradas de login
   function verifyUser(){   
-    const email = "fllaviacorreia@outlook.com";
-    firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-    .then(() => {
-      // The link was successfully sent. Inform the user.
-      // Save the email locally so you don't need to ask the user for it again
-      // if they open the link on the same device.
-      window.localStorage.setItem('emailForSignIn', email);
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
-  
-    //   firebase.auth().signInWithEmailAndPassword(email, password)
-    //   .then((userCredential) => {
-    //     // Signed in
-    //     // Create a reference to the cities collection
-    //     var users = database.collection("Usuario").where("user_id", "==", userCredential.user.uid)
-    //     .get()
-    //     .then((querySnapshot) => {
-    //       querySnapshot.forEach((doc) => {
-    //           // doc.data() is never undefined for query doc snapshots
-    //           login(true, userCredential.user.uid, query.tipo);
-    //       });
-    //   })
-    //   .catch((error) => {
-    //       console.log("Error getting documents: ", error);
-    //   });
+    // const email = "fllaviacorreia@outlook.com";
+    // firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+    // .then(() => {
+    //   // The link was successfully sent. Inform the user.
+    //   // Save the email locally so you don't need to ask the user for it again
+    //   // if they open the link on the same device.
+    //   window.localStorage.setItem('emailForSignIn', email);
+    //   // ...
+    // })
+    // .catch((error) => {
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // ...
+    // });
 
-    // }).catch((error) => {
-    //     // var errorCode = error.code;
-    //     // var errorMessage = error.message;
-    //     setVisible(true);
-    //     setError(error.message)
-    //   });
+  
+      firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        // Create a reference to the cities collection
+        // var users = database.collection("Usuario").where("user_id", "==", userCredential.user.uid)
+        // .get()
+        // .then((querySnapshot) => {
+        //   querySnapshot.forEach((doc) => {
+        //       // doc.data() is never undefined for query doc snapshots
+              login(true, userCredential.user.uid, "acs");
+       //   });
+      // })
+      // .catch((error) => {
+      //     console.log("Error getting documents: ", error);
+      // });
+
+    }).catch((error) => {
+        // var errorCode = error.code;
+        // var errorMessage = error.message;
+        setVisible(true);
+        setError(error.message)
+      });
   }
 
   return (

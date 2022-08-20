@@ -10,9 +10,8 @@ export const styles = StyleService.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   text: {
-    margin: 10,
+    marginLeft: 10,
     fontSize: 15,
-    padding: 10,
   },
   mask: {
     borderWidth: 2,

@@ -186,7 +186,7 @@ export const NewQuestionnaireScreen = () => {
   );
 
   function handleSave() {
-    if (verifyData()) {
+    if (true) {
       database.collection("Questionario").add({
         nome_completo: question1,
         data_nascimento: question2.toLocaleDateString("pt-BR"),

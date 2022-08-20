@@ -14,7 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
-  ScrollView
+  ScrollView,
+  Image,
 }
   from 'react-native';
 
@@ -143,9 +144,13 @@ export const RegisterScreen = () => {
       .replace(/(-\d{2})\d+?$/, "$1");
   };
   return (
-    <ScrollView style={{ flex: 1, alignItems: 'center', backgroundColor: "#AEBD91" }}>
+    <View style={{ flex: 1, alignItems: 'center', backgroundColor: "#AEBD91" }}>
       <Divider />
       <Layout style={styles.layout}>
+      <Image
+        style={styles.tinyLogo}
+        source={require('../../assets/img/logo.png')}
+      />
         <QuestionText
           title={'Nome completo'}
           value={fullName}
@@ -188,7 +193,7 @@ export const RegisterScreen = () => {
           <Text style={styles.textOption}>Sou pesquisador(a)</Text>
         </View>
         {
-          (email === '' || password === '' || confirmPassword === '')
+          (email === '' || password === '' || confirmPassword === '' || nome_completo === '' || cpf === '')
             ?
             <Button style={styles.button} status='primary' disabled={true}>Cadastrar</Button>
             :
@@ -208,7 +213,7 @@ export const RegisterScreen = () => {
           </Button>
         </Card>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -11,7 +11,7 @@ export const styles = StyleService.create({
   },
   row: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     padding: 10,
     marginTop: 10,
   },
@@ -21,28 +21,28 @@ export const styles = StyleService.create({
     padding: 7,
   },
   tinyLogo: {
-    width: 200,
-    height: 200,
+    marginTop:10,
+    width: 150,
+    height: 150,
   },
   button: {
-    margin: 20,
-    padding: 10,
+    margin: 10,
+    padding: 5,
     borderRadius:10,
     width: 200,
   },
   input: {
     width: "100%",
     fontWeight: 300,
-    marginTop: 5,
+    marginBottom:5,
     
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   text:{
-    margin: 10,
     fontSize: 18,
-    padding: 10,
-    color:"black"
+    color:"black",
+    marginTop:5,
   },
 });
