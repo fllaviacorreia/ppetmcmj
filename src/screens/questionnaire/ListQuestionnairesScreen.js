@@ -1,6 +1,5 @@
 import React from 'react';
-import 
-{
+import {
   Layout,
   Icon,
   List,
@@ -11,6 +10,7 @@ import
   from '@ui-kitten/components';
 import { ScrollView } from 'react-native-web';
 import firebase from '../../config/firebase';
+import useStore from "../../store/useStore";
 
 
 /**
@@ -55,60 +55,82 @@ import firebase from '../../config/firebase';
 export const ListQuestionnairesScreen = () => {
   const [listQuests, setListQuests] = React.useState([]);
   const database = firebase.firestore();
-  
-  React.useEffect(() => {
-    database.collection("Questionario").onSnapshot((query) => {
-      const list = [];
-      query.forEach((doc) => {
-        list.push({ ...doc.data(), id: doc.id })
-      });
-      console.log(list);
-      setListQuests(list);
+  const typeUser = useStore(state => state.type);
+  const userID = useStore(state => state.userID);
 
-      console.log(listQuests);
-    })
+
+  React.useEffect(() => {
+    // if (typeUser) {
+    //   database.collection("Questionario").onSnapshot((query) => {
+    //     query.forEach((doc) => {
+    //       setListQuests({ ...doc.data(), id: doc.id })
+    //     });
+    //   });
+    //   if (typeUser === "acs") {
+    //     setListQuests(listQuests.filter((item) => item.idAgenteComunitario === userID));
+    //   }
+    // }
 
     return () => {
       setListQuests([]);
     };
 
-  }, []);
+  }, [typeUser]);
+
+  console.log("renderizou");
+  console.log(listQuests);
 
   const renderItemIcon = (props) => (
     <Icon {...props} name='person' />
   );
 
   const renderItem = ({ item, index }) => (
-    <ListItem 
+    <ListItem
       title={`${index + 1}. ${item.nomeCompleto}`}
       description={`${item.dataNascimento} | ${item.email} | ${item.telefone} |`}
       accessoryLeft={renderItemIcon}
-      style={{width:"100%"}}
     />
   );
 
-  return (
-      <Layout style={{ flex: 1 }}>
-        <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <List
-            style={styles.container}
-            data={listQuests}
-            ItemSeparatorComponent={Divider}
-            renderItem={renderItem}
-          />
-        </Layout>
-      </Layout>
+  const ListItems = () => {
+    return (
+      <List
+        style={styles.container}
+        data={listQuests}
+        ItemSeparatorComponent={Divider}
+        renderItem={renderItem}
+      />
+    );
 
+  }
+
+  const ListaVazia = () => {
+    return (
+      <Text style={styles.container}>
+        carregando dados...
+      </Text>
+    );
+
+
+  }
+
+  return (
+    <Layout style={{ flex: 1 }}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {(listQuests === []) ?  <ListaVazia/> : <ListItems />}
+      </Layout>
+    </Layout>
   );
 };
 
 const styles = StyleService.create({
   container: {
     width: "100%",
-    flexDirection: "row",
+    backgroundColor: "#FFF",
     margin: 20,
-    backgroundColor:"#FFF"
-
+    maxHeight: "100%",
+    maxWidth: "100%",
+    textShadowColor:"#000"
   },
 });
 

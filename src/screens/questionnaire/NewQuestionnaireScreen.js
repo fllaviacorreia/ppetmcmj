@@ -38,30 +38,42 @@ export const NewQuestionnaireScreen = () => {
   };
 
   //Arrays para serem utilizados no Select 
-  const sexo = [
+  const sexoOpcoes = [
     "Selecione",
     "Feminino",
     "Masculino",];
 
-  const escolaridade = [
+  const escolaridadeOpcoes = [
     "Selecione",
     "Ensino Fundamental",
     "Ensino Médio",
     "Ensino Superior",
-    "Não sabe ler e/ou escrever"];
+    "Não sabe ler e/ou escrever",
+    "Prefiro não responder"];
 
-  const etnia = [
+  const etniaOpcoes = [
     "Selecione",
     "Branca",
     "Parda",
     "Preta",
-    "Amarela"];
+    "Amarela",
+    "Prefiro não responder"];
 
-  const renda = [
+  const rendaMensalOpcoes = [
     "Selecione",
     "Até 1 salário mínimo",
     "De 2 a 3 salários mínimos",
-    "Mais de 3 salários mínimos"];
+    "Mais de 3 salários mínimos",
+    "Prefiro não responder"];
+
+    const situacaoConjugalOpcoes = [
+      "Selecione",
+      "Solteiro",
+      "Casado",
+      "Separado ou divorciado",
+      "Viúvo",
+      "Prefiro não responder"];
+
 
   const opcao = [
     "Selecione",
@@ -85,14 +97,16 @@ export const NewQuestionnaireScreen = () => {
   //   .replace(/(-\d{2})\d+?$/, "$1"); // terceira seq 00 (casa dos cents)
   // }
 
-  const [question1, setQuestion1] = React.useState('');
-  const [question2, setQuestion2] = React.useState(new Date());
-  const [question3, setQuestion3] = React.useState('');
-  const [question4, setQuestion4] = React.useState('');
-  const [question5, setQuestion5] = React.useState(new IndexPath(0));
-  const [question6, setQuestion6] = React.useState(new IndexPath(0));
-  const [question7, setQuestion7] = React.useState(new IndexPath(0));
-  const [question8, setQuestion8] = React.useState(new IndexPath(0));
+  const [nomeCompleto, setNomeCompleto] = React.useState('');
+  const [socialName, setSocialName] = React.useState('');
+  const [dataNascimento, setDataNascimento] = React.useState(new Date());
+  const [telefone, setTelefone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [rendaMensal, setRendaMensal] = React.useState(new IndexPath(0));
+  const [sexo, setSexo] = React.useState(new IndexPath(0));
+  const [escolaridade, setEscolaridade] = React.useState(new IndexPath(0));
+  const [etnia, setEtnia] = React.useState(new IndexPath(0));
+  const [situacaoConjugal, setSituacaoConjugal] = React.useState(new IndexPath(0));
   const [question9, setQuestion9] = React.useState(new IndexPath(0));
   const [question10, setQuestion10] = React.useState(new IndexPath(0));
   const [question11, setQuestion11] = React.useState(new IndexPath(0));
@@ -116,16 +130,16 @@ export const NewQuestionnaireScreen = () => {
 
 
   function verifyData() {
-    if (question1 !== "") {
+    if (nomeCompleto !== "") {
       const dateDay = new Date();
-      const birth = dateDay.getFullYear - question2.getFullYear
+      const birth = dateDay.getFullYear - dataNascimento.getFullYear
       if (birth >= 18) {
-        if (question3 !== "") {
-          if (question4 !== "") {
-            if (question5.row !== 0
-              && question6.row !== 0
-              && question7.row !== 0
-              && question8.row !== 0
+        if (telefone !== "") {
+          if (email !== "") {
+            if (rendaMensal.row !== 0
+              && sexo.row !== 0
+              && escolaridade.row !== 0
+              && etnia.row !== 0
               && question9.row !== 0
               && question10.row !== 0
               && question11.row !== 0
@@ -167,7 +181,7 @@ export const NewQuestionnaireScreen = () => {
       setMessagem("O campo Nome completo não está preenchido.");
       setVisible(true);
     }
-    <Message operation={() => setVisible(false)}/>
+    <Message operation={() => setVisible(false)} />
     return false;
   }
 
@@ -188,14 +202,16 @@ export const NewQuestionnaireScreen = () => {
   function handleSave() {
     if (true) {
       database.collection("Questionario").add({
-        nome_completo: question1,
-        data_nascimento: question2.toLocaleDateString("pt-BR"),
-        telefone: question3,
-        email: question4,
-        renda_mensal: question5,
-        sexo: question6.row,
-        escolaridade: question7.row,
-        etnia: question8.row,
+        nome_completo: nomeCompleto,
+        nome_social: socialName,
+        data_nascimento: dataNascimento.toLocaleDateString("pt-BR"),
+        telefone: telefone,
+        email: email,
+        renda_mensal: rendaMensal,
+        sexo: sexo.row,
+        escolaridade: escolaridade.row,
+        etnia: etnia.row,
+        situacao_conjugal: situacaoConjugal.row,
         question1: question9,
         question2: question10,
         question3: question11,
@@ -221,7 +237,7 @@ export const NewQuestionnaireScreen = () => {
       });
       setMessagem("Questionário cadastrado com sucesso!");
       setVisible(true);
-      <Message operation={() => navigateHome}/>
+      <Message operation={() => navigateHome} />
 
     }
   }
@@ -232,179 +248,195 @@ export const NewQuestionnaireScreen = () => {
       <Layout style={styles.layout}>
         <Text category='h5'>Dados pessoais</Text>
         <QuestionText
-          title={'Nome completo'}
+          title={'Nome completo *'}
           placeholder={'ex. Maria da Silva'}
-          value={question1}
-          setText={newValue => setQuestion1(newValue)}
+          value={nomeCompleto}
+          setText={newValue => setNomeCompleto(newValue)}
           type="default"
         />
-        <QuestionDate
-          title={'Data de nascimento'}
-          value={question2}
-          setText={newValue => setQuestion2(newValue)}
-        />
+
         <QuestionText
-          title={'Telefone'}
+          title={'Nome social'}
+          value={socialName}
+          setText={newValue => setSocialName(newValue)}
+          type="default"
+        />
+
+        <QuestionDate
+          title={'Data de nascimento *'}
+          value={dataNascimento}
+          setText={newValue => setDataNascimento(newValue)}
+        />
+                
+        <QuestionSelectOption
+          title={'Sexo *'}
+          data={sexoOpcoes}
+          value={sexo}
+          setValue={setSexo}
+        />
+        <QuestionSelectOption
+          title={'Situação conjugal *'}
+          data={situacaoConjugalOpcoes}
+          value={situacaoConjugal}
+          setValue={setSituacaoConjugal}
+        />
+        <QuestionSelectOption
+          title={'Escolaridade *'}
+          data={escolaridadeOpcoes}
+          value={escolaridade}
+          setValue={setEscolaridade}
+        />
+        <QuestionSelectOption
+          title={'Etnia *'}
+          data={etniaOpcoes}
+          value={etnia}
+          setValue={setEtnia}
+        />
+
+        <QuestionSelectOption
+          title={'Renda mensal (R$) *'}
+          data={rendaMensalOpcoes}
+          value={rendaMensal}
+          setValue={setRendaMensal}
+        />
+
+        <QuestionText
+          title={'Telefone *'}
           placeholder="ex. (73) 9 0000-000"
-          value={question3}
-          setText={newValue => setQuestion3(maskPhone(newValue))}
+          value={telefone}
+          setText={newValue => setTelefone(maskPhone(newValue))}
           type="numeric"
         />
         <QuestionText
-          title={'E-mail'}
+          title={'E-mail *'}
           placeholder={'ex. example@example.com'}
-          value={question4}
-          setText={newValue => setQuestion4(newValue)}
+          value={email}
+          setText={newValue => setEmail(newValue)}
           type="email-address"
-        />
-        <QuestionSelectOption
-          title={'Renda mensal (R$)'}
-          data={renda}
-          value={question5}
-          setValue={setQuestion5}
-        />
-        <QuestionSelectOption
-          title={'Sexo'}
-          data={sexo}
-          value={question6}
-          setValue={setQuestion6}
-        />
-        <QuestionSelectOption
-          title={'Escolaridade'}
-          data={escolaridade}
-          value={question7}
-          setValue={setQuestion7}
-        />
-        <QuestionSelectOption
-          title={'Etnia'}
-          data={etnia}
-          value={question8}
-          setValue={setQuestion8}
         />
 
         <Divider />
         <Text category='h5'>Informações adicionais</Text>
         <QuestionSelectOption
-          title={'Tem dores de cabeça frequentes?'}
+          title={'Tem dores de cabeça frequentes? *'}
           data={opcao}
           value={question9}
           setValue={setQuestion9}
         />
         <QuestionSelectOption
-          title={'Tem falta de apetite?'}
+          title={'Tem falta de apetite? *'}
           data={opcao}
           value={question10}
           setValue={setQuestion10}
         />
         <QuestionSelectOption
-          title={'Dorme mal?'}
+          title={'Dorme mal? *'}
           data={opcao}
           value={question11}
           setValue={setQuestion11}
         />
         <QuestionSelectOption
-          title={'Assusta-se com facilidade?'}
+          title={'Assusta-se com facilidade? *'}
           data={opcao}
           value={question12}
           setValue={setQuestion12}
         />
         <QuestionSelectOption
-          title={'Tem tremores na mão?'}
+          title={'Tem tremores na mão? *'}
           data={opcao}
           value={question13}
           setValue={setQuestion13}
         />
         <QuestionSelectOption
-          title={'Sente-se nervoso(a), tenso(a) ou preocupado(a)?'}
+          title={'Sente-se nervoso(a), tenso(a) ou preocupado(a)? *'}
           data={opcao}
           value={question14}
           setValue={setQuestion14}
         />
         <QuestionSelectOption
-          title={'Tem má digestão?'}
+          title={'Tem má digestão? *'}
           data={opcao}
           value={question15}
           setValue={setQuestion15}
         />
         <QuestionSelectOption
-          title={'Tem dificuldade em pensar com clareza?'}
+          title={'Tem dificuldade em pensar com clareza? *'}
           data={opcao}
           value={question16}
           setValue={setQuestion16}
         />
         <QuestionSelectOption
-          title={'Tem se sentido triste ultimamente?'}
+          title={'Tem se sentido triste ultimamente? *'}
           data={opcao}
           value={question17}
           setValue={setQuestion17}
         />
         <QuestionSelectOption
-          title={'Tem chorado mais do que de costume?'}
+          title={'Tem chorado mais do que de costume? *'}
           data={opcao}
           value={question18}
           setValue={setQuestion18}
         />
         <QuestionSelectOption
-          title={'Encontra dificuldades para realizar com satisfação suas atividades diárias?'}
+          title={'Encontra dificuldades para realizar com satisfação suas atividades diárias? *'}
           data={opcao}
           value={question19}
           setValue={setQuestion19}
         />
         <QuestionSelectOption
-          title={'Tem dificuldades para tomar decisões?'}
+          title={'Tem dificuldades para tomar decisões? *'}
           data={opcao}
           value={question20}
           setValue={setQuestion20}
         />
         <QuestionSelectOption
-          title={'Tem dificuldades no serviço (seu trabalho é penoso, lhe causa sofrimento)?'}
+          title={'Tem dificuldades no serviço (seu trabalho é penoso, lhe causa sofrimento)? *'}
           data={opcao}
           value={question21}
           setValue={setQuestion21}
         />
         <QuestionSelectOption
-          title={'É incapaz de desempenhar um papel útil em sua vida?'}
+          title={'É incapaz de desempenhar um papel útil em sua vida? *'}
           data={opcao}
           value={question22}
           setValue={setQuestion22}
         />
         <QuestionSelectOption
-          title={'Tem perdido o interesse pelas coisas?'}
+          title={'Tem perdido o interesse pelas coisas? *'}
           data={opcao}
           value={question23}
           setValue={setQuestion23}
         />
         <QuestionSelectOption
-          title={'Você se sente uma pessoa inútil, sem préstimo?'}
+          title={'Você se sente uma pessoa inútil, sem préstimo? *'}
           data={opcao}
           value={question24}
           setValue={setQuestion24}
         />
         <QuestionSelectOption
-          title={'Tem tido a idéia de acabar com a vida?'}
+          title={'Tem tido a idéia de acabar com a vida? *'}
           data={opcao}
           value={question25}
           setValue={setQuestion25}
         />
         <QuestionSelectOption
-          title={'Sente-se cansado (a) o tempo todo?'}
+          title={'Sente-se cansado (a) o tempo todo? *'}
           data={opcao}
           value={question26}
           setValue={setQuestion26}
         />
         <QuestionSelectOption
-          title={'Tem sensações desagradáveis no estômago?'}
+          title={'Tem sensações desagradáveis no estômago? *'}
           data={opcao}
           value={question27}
           setValue={setQuestion27}
         />
         <QuestionSelectOption
-          title={'Você se cansa com facilidade?'}
+          title={'Você se cansa com facilidade? *'}
           data={opcao}
           value={question28}
           setValue={setQuestion28}
         />
-
         <Button style={styles.button} status='success' onPress={() => { handleSave() }} >Salvar</Button>
 
       </Layout>
