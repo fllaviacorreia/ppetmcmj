@@ -1,12 +1,10 @@
 import React from 'react';
 import {
-Button,
-Divider,
-Layout,
-Input,
-Modal,
-Card,
-Text,
+  Button,
+  Layout,
+  Modal,
+  Card,
+  Text,
 }
   from '@ui-kitten/components';
 
@@ -15,80 +13,66 @@ import { useNavigation } from "@react-navigation/native";
 import useStore from "../../store/useStore";
 import firebase from '../../config/firebase.js';
 import SecureText from "../components/secureEntry";
-
 import { styles } from './styles';
 import QuestionText from '../components/componentText';
 
 export const LoginScreen = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  
-  const [type, setType] = React.useState('');
-  const [error, setError] = React.useState(null);
-
   const [visible, setVisible] = React.useState(false);
-  
+  const [error, setError] = React.useState(null);
   const navigation = useNavigation();
-  const database = firebase.firestore();
-
   const login = useStore(state => state.login)
 
-  const navigateRegister = () => {
-    navigation.navigate('Cadastrar-se');
-  };
+  function navigateRegister() {
+    setEmail('');
+    setPassword('');
+    navigation.navigate('Cadastre-se');
+  }
 
-  
-  //valida entradas de login
-  function verifyUser(){   
-    // const email = "fllaviacorreia@outlook.com";
-    // firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-    // .then(() => {
-    //   // The link was successfully sent. Inform the user.
-    //   // Save the email locally so you don't need to ask the user for it again
-    //   // if they open the link on the same device.
-    //   window.localStorage.setItem('emailForSignIn', email);
-    //   // ...
-    // })
-    // .catch((error) => {
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   // ...
-    // });
+  function navigateForgotPassword() {
+    setEmail('');
+    setPassword('');
+    navigation.navigate('Recupere sua conta');
+  }
 
-  
-      firebase.auth().signInWithEmailAndPassword(email, password)
+  console.log("renderizou")
+
+  //valida o tipo do usuario
+  // const handleVerifyUser = (email === '' || password === '') 
+  // ? 
+  // null 
+  // : 
+  // firebase.auth().signInWithEmailAndPassword(email, password)
+  //   .then((userCredential) => {
+  //     login(true, userCredential.user.uid);
+  //   }).catch((error) => {
+  //     setVisible(true);
+  //     setError(error.message);
+  //   });
+
+  function handleVerifyUser() {
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Signed in
-        // Create a reference to the cities collection
-        // var users = database.collection("Usuario").where("user_id", "==", userCredential.user.uid)
-        // .get()
-        // .then((querySnapshot) => {
-        //   querySnapshot.forEach((doc) => {
-        //       // doc.data() is never undefined for query doc snapshots
-              login(true, userCredential.user.uid, "acs");
-       //   });
-      // })
-      // .catch((error) => {
-      //     console.log("Error getting documents: ", error);
-      // });
-
-    }).catch((error) => {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
+        login(true, userCredential.user.uid);
+      }).catch((error) => {
         setVisible(true);
-        setError(error.message)
+        setError(error.message);
       });
   }
 
   return (
-    <Layout style={{ flex: 1, alignItems: 'center', backgroundColor: "#AEBD91"}}>
-      
-      <Divider />
-      <Layout style={styles.layout}>
-      <Image
-        style={styles.tinyLogo}
-        source={require('../../assets/img/logo.png')}
-      />
+    <Layout style={styles.layoutOut}>
+
+      <Layout style={styles.layoutIn}>
+        <Image
+          style={styles.tinyLogo}
+          source={require('../../assets/img/logo.png')}
+        />
+      </Layout>
+
+      <Layout style={styles.layoutIn}>
+
         <QuestionText
           title={'E-mail'}
           value={email}
@@ -102,28 +86,33 @@ export const LoginScreen = () => {
         />
 
         {
-          (email === '' || password === '') 
-          ? 
+          (email === '' || password === '')
+            ?
             <Button style={styles.button} status='primary' disabled={true}><Text style={styles.text}>Login</Text></Button>
-          :
-          <Button style={styles.button} status='primary' on onPress={verifyUser}><Text style={styles.text}>Login</Text></Button>
+            :
+            <Button style={styles.button} status='success' on onPress={handleVerifyUser}><Text style={styles.text}>Login</Text></Button>
         }
+        <Layout style={styles.layoutButtonEsqueciSenha}>
+          <Button style={styles.button} status='control' onPress={navigateForgotPassword} appearance='ghost'>Esqueci minha senha</Button>
+        </Layout>
 
-        
+        <Button style={styles.button} status='warning' onPress={navigateRegister} appearance='ghost'>Cadastrar-se</Button>
+
+
         <Modal
-        visible={visible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}>
-        <Card disabled={true} style={{justifyContent:"center", margin:10}}>
-          <Text style={styles.text}>E-mail e/ou senha inválidos.{"\n"}Erro: {error}</Text>
-          <Button style={{width:"90%", margin:10,}} onPress={() => setVisible(false)}>
-            OK
-          </Button>
-        </Card>
-      </Modal>
+          visible={visible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={() => setVisible(false)}>
+          <Card disabled={true} style={{ justifyContent: "center", margin: 10 }}>
+            <Text style={styles.text}>E-mail e/ou senha inválidos.{"\n"}Erro: {error}</Text>
+            <Button style={{ width: "90%", margin: 10, }} onPress={() => setVisible(false)}>
+              OK
+            </Button>
+          </Card>
+        </Modal>
+
       </Layout>
 
-      <Button style={styles.button} status='warning' onPress={navigateRegister} appearance='ghost'>Cadastre-se</Button>
 
     </Layout>
   );

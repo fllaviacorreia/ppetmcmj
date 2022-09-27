@@ -31,7 +31,7 @@ export default function secureEntry(props) {
 
   return (
     <View style={{justifyContent:'flex-start'}}>
-      <Text>
+      <Text style={styles.text}>
         {props.label}
       </Text>
         <Input

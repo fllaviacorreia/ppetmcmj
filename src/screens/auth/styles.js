@@ -1,40 +1,60 @@
 import { StyleService } from '@ui-kitten/components';
 
 export const styles = StyleService.create({
-  layout: {
-    flex: 1,
+  layoutOut: {
+    flex:1,
+    width:"100%",
+    height:"100%",
+    backgroundColor: "#AEBD91", 
+  },
+  layoutIn:{    
+    alignItems:"center",
     justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
-    padding: 10,
+    margin: 20,
+    backgroundColor: "#AEBD91",
+    height:"45%",
+  },
+  layoutImage:{    
+    alignItems:"center",
+    justifyContent: 'center',
+    marginBottom: 50,
+    backgroundColor: "#AEBD91",
+    height:"30%",
+  },
+
+  layoutButtonEsqueciSenha: {
+    alignItems: 'flex-start',
+    height:"30%",
+    width:"135%",
+    marginTop: 20,
     backgroundColor: "#AEBD91",
   },
+
   row: {
     flexDirection: "row",
     justifyContent: "center",
-    padding: 10,
-    marginTop: 10,
+    marginTop:"15%",
+    padding:10,
+    backgroundColor: "#AEBD91",
+
   },
   textOption: {
     fontSize: 15,
     color: 'black',
-    padding: 7,
   },
   tinyLogo: {
-    marginTop:10,
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
+    marginBottom:30,
   },
   button: {
-    margin: 10,
-    padding: 5,
     borderRadius:10,
-    width: 200,
+    textAlign:"left",
+    width: 250,
+    marginTop:20,
   },
   input: {
-    width: "100%",
     fontWeight: 300,
-    marginBottom:5,
     
   },
   backdrop: {
@@ -43,6 +63,5 @@ export const styles = StyleService.create({
   text:{
     fontSize: 18,
     color:"black",
-    marginTop:5,
   },
 });

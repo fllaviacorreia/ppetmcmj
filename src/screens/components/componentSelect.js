@@ -6,7 +6,7 @@ import { styles } from './styles';
 const QuestionSelectOption = ({ title, data, value, setValue }) => {
     return(
     <>
-      <Text> {title} </Text>
+      <Text style={styles.text}> {title} </Text>
       <Select
         value={data[value.row]}
         selectedIndex={value}
