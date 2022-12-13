@@ -9,7 +9,7 @@ import { styles } from './styles';
 
 const QuestionText = ({ title, placeholder, value, setText, type }) => {
   return (
-    <View style={{justifyContent:'flex-start'}}>
+    <View style={styles.containerComponent}>
       <Text style={styles.text}> {title} </Text>
       <Input
         value={value}

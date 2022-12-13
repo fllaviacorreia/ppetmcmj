@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Layout, Modal, Card, Text,} from '@ui-kitten/components';
+import { Button, Layout, Modal, Card, Text, } from '@ui-kitten/components';
 
-import { Image } from 'react-native';
+import { Image, SafeAreaView } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import firebase from '../../config/firebase.js';
 import { styles } from './styles';
@@ -11,7 +11,7 @@ export const ForgotPassScreen = () => {
   const [email, setEmail] = React.useState('');
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState(null);
-  
+
   const navigation = useNavigation();
 
   function navigateLogin() {
@@ -33,8 +33,8 @@ export const ForgotPassScreen = () => {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <Layout style={styles.layoutOut}>
-
       <Layout style={styles.layoutIn}>
         <Image
           style={styles.tinyLogo}
@@ -43,7 +43,7 @@ export const ForgotPassScreen = () => {
       </Layout>
 
       <Layout style={styles.layoutIn}>
-        <Text style={{ marginBottom: 100 }}>Informe o seu email para enviar link de verificação.</Text>
+        <Text style={{ marginTop: 100 }}>Informe o seu email para enviar link de modificação de senha.</Text>
         <QuestionText
           title={'E-mail'}
           value={email}
@@ -59,8 +59,14 @@ export const ForgotPassScreen = () => {
             <Button style={styles.button} status='success' on onPress={handleVerifyUser}><Text style={styles.text}>Enviar</Text></Button>
         }
 
-        <Button style={styles.button} status='warning' onPress={navigateLogin} appearance='ghost'>Cancelar</Button>
-
+        <Layout style={styles.layoutButtonRegister}>
+          <Button
+            style={styles.button}
+            status='warning'
+            onPress={navigateLogin} appearance='ghost'>
+            Cancelar
+          </Button>
+        </Layout>
 
         <Modal
           visible={visible}
@@ -78,5 +84,6 @@ export const ForgotPassScreen = () => {
 
 
     </Layout>
+    </SafeAreaView>
   );
 }

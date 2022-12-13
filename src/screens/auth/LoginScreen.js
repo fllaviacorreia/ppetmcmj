@@ -8,7 +8,7 @@ import {
 }
   from '@ui-kitten/components';
 
-import { Image } from 'react-native';
+import { Image, SafeAreaView } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import useStore from "../../store/useStore";
 import firebase from '../../config/firebase.js';
@@ -24,6 +24,7 @@ export const LoginScreen = () => {
   const navigation = useNavigation();
   const login = useStore(state => state.login)
 
+  const database = firebase.firestore();
   function navigateRegister() {
     setEmail('');
     setPassword('');
@@ -35,8 +36,6 @@ export const LoginScreen = () => {
     setPassword('');
     navigation.navigate('Recupere sua conta');
   }
-
-  console.log("renderizou")
 
   //valida o tipo do usuario
   // const handleVerifyUser = (email === '' || password === '') 
@@ -54,6 +53,12 @@ export const LoginScreen = () => {
   function handleVerifyUser() {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        database.collection("Usuario").where("user_id", "==", userCredential.user.uid).onSnapshot((query) => {
+          query.forEach((doc) => {
+            console.log("database",doc.data().tipo)
+            // setTypeUser(decrytpInformation(doc.data().tipo));
+            // setSentinela(false);
+        })});
         login(true, userCredential.user.uid);
       }).catch((error) => {
         setVisible(true);
@@ -62,9 +67,10 @@ export const LoginScreen = () => {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <Layout style={styles.layoutOut}>
 
-      <Layout style={styles.layoutIn}>
+      <Layout style={styles.layoutImage}>
         <Image
           style={styles.tinyLogo}
           source={require('../../assets/img/logo.png')}
@@ -95,10 +101,6 @@ export const LoginScreen = () => {
         <Layout style={styles.layoutButtonEsqueciSenha}>
           <Button style={styles.button} status='control' onPress={navigateForgotPassword} appearance='ghost'>Esqueci minha senha</Button>
         </Layout>
-
-        <Button style={styles.button} status='warning' onPress={navigateRegister} appearance='ghost'>Cadastrar-se</Button>
-
-
         <Modal
           visible={visible}
           backdropStyle={styles.backdrop}
@@ -112,8 +114,10 @@ export const LoginScreen = () => {
         </Modal>
 
       </Layout>
-
-
+      <Layout style={styles.layoutButtonRegister}>
+          <Button style={styles.button} status='warning' onPress={navigateRegister} appearance='ghost'>Cadastrar-se</Button>
+        </Layout>
     </Layout>
+    </SafeAreaView>
   );
 }

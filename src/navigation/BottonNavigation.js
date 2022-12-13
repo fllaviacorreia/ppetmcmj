@@ -17,7 +17,7 @@ const BottomTabBar = ({navigation, state}) => (
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
       <BottomNavigationTab title='Página inicial' icon={HomeIcon}/>
-      <BottomNavigationTab title='Questionários respondidos' icon={ListQuestionnairesIcon}/>
+      <BottomNavigationTab title='Questionários aplicados' icon={ListQuestionnairesIcon}/>
       <BottomNavigationTab title='Sobre nós' icon={InfoIcon}/>
     </BottomNavigation>
   </View>
@@ -26,7 +26,7 @@ const BottomTabBar = ({navigation, state}) => (
 export const BottomTabsNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen name='Página inicial' component={HomeScreen}/>
-    <Screen name='Questionários respondidos' component={ListQuestionnairesScreen}/>
+    <Screen name='Questionários aplicados' component={ListQuestionnairesScreen}/>
     <Screen name='Sobre nós' component={AboutUsScreen}/>
   </Navigator>
 );

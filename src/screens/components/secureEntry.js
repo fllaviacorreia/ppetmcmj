@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Input, Text } from '@ui-kitten/components';
 import { TouchableWithoutFeedback, View } from 'react-native';
-import { styles } from './componentSecureText';
+import { styles } from './styles';
 
 
 export default function secureEntry(props) {
@@ -24,19 +24,19 @@ export default function secureEntry(props) {
   const renderCaption = () => {
     return (
       <View style={styles.captionContainer}>
-        <Text style={styles.captionText}>{props.textRenderCaption}</Text>
+        <Text>{}</Text>
       </View>
     );
   };
 
   return (
-    <View style={{justifyContent:'flex-start'}}>
+    <View style={styles.containerComponent}>
       <Text style={styles.text}>
         {props.label}
       </Text>
         <Input
           value={props.value}
-          caption={renderCaption}
+          caption={props.textRenderCaption}
           accessoryRight={renderIcon}
           secureTextEntry={secureTextEntry}
           onChangeText={nextValue => props.setValue(nextValue)}

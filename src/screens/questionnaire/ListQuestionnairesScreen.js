@@ -5,7 +5,8 @@ import {
   List,
   ListItem,
   StyleService,
-  Divider
+  Divider,
+  Text
 }
   from '@ui-kitten/components';
 import { ScrollView } from 'react-native-web';
@@ -77,9 +78,6 @@ export const ListQuestionnairesScreen = () => {
 
   }, [typeUser]);
 
-  console.log("renderizou");
-  console.log(listQuests);
-
   const renderItemIcon = (props) => (
     <Icon {...props} name='person' />
   );
@@ -106,18 +104,21 @@ export const ListQuestionnairesScreen = () => {
 
   const ListaVazia = () => {
     return (
-      <Text style={styles.container}>
-        carregando dados...
+      <Layout style={styles.containerText}>
+        <Text category='h5' style={styles.tex}>
+        Nenhum questionário encontrado
       </Text>
+      </Layout>
+      
     );
-
-
   }
+
+  console.log('listQuests',listQuests)
 
   return (
     <Layout style={{ flex: 1 }}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {(listQuests === []) ?  <ListaVazia/> : <ListItems />}
+      {(listQuests.length === 0) ?  <ListaVazia/> : <ListItems />}
       </Layout>
     </Layout>
   );
@@ -131,6 +132,16 @@ const styles = StyleService.create({
     maxHeight: "100%",
     maxWidth: "100%",
     textShadowColor:"#000"
+  },
+  containerText: {
+    width: "100%",
+    backgroundColor: "#FFF",
+    margin: 20,
+    maxHeight: "100%",
+    maxWidth: "100%",
+    textShadowColor:"#000",
+    justifyContent:'center',
+    alignItems:'center',
   },
 });
 

@@ -27,7 +27,7 @@ export const NewQuestionnaireScreen = () => {
 
   //Para mensagens de erro ou sucesso
   const [visible, setVisible] = React.useState(false);
-  const [messagem, setMessagem] = React.useState('');
+  const [message, setMessagem] = React.useState('');
 
   const database = firebase.firestore();
 
@@ -191,7 +191,7 @@ export const NewQuestionnaireScreen = () => {
       backdropStyle={styles.backdrop}
       onBackdropPress={() => setVisible(false)}>
       <Card disabled={true}>
-        <Text style={styles.text}>{messagem}</Text>
+        <Text style={styles.text}>{message}</Text>
         <Button onPress={props.operation}>
           OK
         </Button>
@@ -199,6 +199,43 @@ export const NewQuestionnaireScreen = () => {
     </Modal>
   );
 
+  function getResultSRQ(){
+    const arr = [];
+    arr.push(question9.row)
+    arr.push(question10.row)
+    arr.push(question11.row)
+    arr.push(question12.row)
+    arr.push(question13.row)
+    arr.push(question14.row)
+    arr.push(question15.row)
+    arr.push(question16.row)
+    arr.push(question17.row)
+    arr.push(question18.row)
+    arr.push(question19.row)
+    arr.push(question20.row)
+    arr.push(question21.row)
+    arr.push(question22.row)
+    arr.push(question23.row)
+    arr.push(question24.row)
+    arr.push(question25.row)
+    arr.push(question26.row)
+    arr.push(question27.row)
+    arr.push(question28.row)
+
+    let sum = 0
+    console.log(arr);
+    for(let i = 0; i < arr.length; i++){
+      if(arr[i] === 1)
+        sum++
+    }
+
+    console.log(sum)
+    if(sum > 6)
+      return "\nA partir das respostas ocorreu acusamento de sofrimento mental. \nRecomenda-se buscar tratamento especializado.";
+    else
+      return "\nA partir das respostas não ocorreu acusamento de sofrimento mental.";
+    
+  }
   function handleSave() {
     if (true) {
       database.collection("Questionario").add({
@@ -207,37 +244,39 @@ export const NewQuestionnaireScreen = () => {
         data_nascimento: dataNascimento.toLocaleDateString("pt-BR"),
         telefone: telefone,
         email: email,
-        renda_mensal: rendaMensal,
+        renda_mensal: rendaMensal.row,
         sexo: sexo.row,
         escolaridade: escolaridade.row,
         etnia: etnia.row,
         situacao_conjugal: situacaoConjugal.row,
-        question1: question9,
-        question2: question10,
-        question3: question11,
-        question4: question12,
-        question5: question13,
-        question6: question14,
-        question7: question15,
-        question8: question16,
-        question9: question17,
-        question10: question18,
-        question11: question19,
-        question12: question20,
-        question13: question21,
-        question14: question22,
-        question15: question23,
-        question16: question24,
-        question17: question25,
-        question18: question26,
-        question19: question27,
-        question20: question28,
+        question1: question9.row,
+        question2: question10.row,
+        question3: question11.row,
+        question4: question12.row,
+        question5: question13.row,
+        question6: question14.row,
+        question7: question15.row,
+        question8: question16.row,
+        question9: question17.row,
+        question10: question18.row,
+        question11: question19.row,
+        question12: question20.row,
+        question13: question21.row,
+        question14: question22.row,
+        question15: question23.row,
+        question16: question24.row,
+        question17: question25.row,
+        question18: question26.row,
+        question19: question27.row,
+        question20: question28.row,
         user_id: userID,
         data_cadastro: (new Date()).toLocaleDateString("pt-BR")
       });
-      setMessagem("Questionário cadastrado com sucesso!");
+      const resultado = getResultSRQ();
+      setMessagem("Questionário cadastrado com sucesso!"+resultado);
+      console.log(message)
       setVisible(true);
-      <Message operation={() => navigateHome} />
+    //  <Message operation={() => navigateHome} />
 
     }
   }
@@ -440,6 +479,18 @@ export const NewQuestionnaireScreen = () => {
         <Button style={styles.button} status='success' onPress={() => { handleSave() }} >Salvar</Button>
 
       </Layout>
+
+      <Modal
+      visible={visible}
+      backdropStyle={styles.backdrop}
+      onBackdropPress={() => setVisible(false)}>
+      <Card disabled={true}>
+        <Text style={styles.text}>{message}</Text>
+        <Button onPress={navigateHome}>
+          OK
+        </Button>
+      </Card>
+    </Modal>
     </ScrollView>
   );
 };

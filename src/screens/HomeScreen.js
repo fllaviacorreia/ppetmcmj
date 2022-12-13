@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-Button,
-Divider,
-Layout,
-StyleService
+  Button,
+  Divider,
+  Layout,
+  StyleService
 }
   from '@ui-kitten/components';
 
@@ -12,7 +12,6 @@ import useStore from "../store/useStore";
 import firebase from '../config/firebase';
 
 import CryptoJS from "react-native-crypto-js";
-import { SECRET_KEY } from '@env';
 
 export const HomeScreen = () => {
   const [sentinela, setSentinela] = React.useState(true);
@@ -29,48 +28,48 @@ export const HomeScreen = () => {
 
   console.log("stateuser", isSignedIn, "iduser", userID, "typeuser", typeUser)
 
-  React.useEffect(() => {    
-    if(sentinela){
-     verifyTypeUSer
+  React.useEffect(() => {
+    if (sentinela && userID) {
+      getUserType();
     }
-           
   }
   );
 
+  //log out
   function onLogOut() {
     setIsLoggedIn(false, null, null);
   }
 
+  //decrypt information about user
   function decrytpInformation(value) {
+    const SECRET_KEY = process.env.SECRET_KEY;
+    console.log("SECRET_KEY",SECRET_KEY)
     const decrypted = CryptoJS.AES.decrypt(
       value,
       SECRET_KEY,
     ).toString(CryptoJS.enc.Utf8);
 
-    console.log(decrypted)
+    console.log("value",value)
+    console.log("decrypted",decrypted)
     return decrypted;
   }
 
-  const verifyTypeUSer = (!sentinela) 
-  ?
-   null
-  :
-  database.collection("Usuario").where("user_id", "==", userID).onSnapshot((query) => {
-    query.forEach((doc) => {
-      console.log(doc.data())
-      console.log('decrypted',decrytpInformation(doc.data().tipo))
-      setTypeUser();
-      setSentinela(false);
-    })
-  }); 
-
-
-
-
+  //set type user in global state
   const setTypeUser = () => {
     setIsLoggedIn(isSignedIn, userID, decrytpInformation(tipo));
   }
 
+  function getUserType(){
+    database.collection("Usuario").where("user_id", "==", userID).onSnapshot((query) => {
+    query.forEach((doc) => {
+      console.log("database",doc.data().tipo)
+      // setTypeUser(decrytpInformation(doc.data().tipo));
+      // setSentinela(false);
+  })
+});
+  }
+
+  //go to new questionnaire page
   const navigateNewQuestionnaire = () => {
     navigation.navigate('Novo questionário SRQ-20');
   };

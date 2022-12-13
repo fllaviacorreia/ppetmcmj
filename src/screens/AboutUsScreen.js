@@ -5,7 +5,7 @@ export const AboutUsScreen = () => {
   return (
     <Layout style={{ flex: 1 }}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text category='h3'>Em construção</Text>
+        <Text category='h5'>Em construção</Text>
       </Layout>
     </Layout>
   );

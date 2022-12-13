@@ -12,10 +12,9 @@ const CalendarIcon = (props) => (
 );
 
 const QuestionDate = ({ title, value, setText }) => {
-    return (
-        
-    <View style={{justifyContent:'flex-start'}}>
-            <Text> {title} </Text>
+    return (        
+        <View style={styles.containerComponent}>
+             <Text style={styles.text}> {title} </Text>
             <Datepicker
                 date={value}
                 onSelect={nextDate => setText(nextDate)}

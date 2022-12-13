@@ -1,27 +1,29 @@
 import { StyleService } from '@ui-kitten/components';
+import { StatusBar } from 'react-native';
 
 export const styles = StyleService.create({
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+    backgroundColor: "#AEBD91",
+},
   layoutOut: {
-    flex:1,
-    width:"100%",
-    height:"100%",
-    backgroundColor: "#AEBD91", 
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#AEBD91",
   },
   layoutIn:{    
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: 'center',
-    margin: 20,
     backgroundColor: "#AEBD91",
-    height:"45%",
+    marginHorizontal: 20,
   },
   layoutImage:{    
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 30,
     backgroundColor: "#AEBD91",
-    height:"30%",
   },
-
   layoutButtonEsqueciSenha: {
     alignItems: 'flex-start',
     height:"30%",
@@ -29,23 +31,14 @@ export const styles = StyleService.create({
     marginTop: 20,
     backgroundColor: "#AEBD91",
   },
-
-  row: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop:"15%",
-    padding:10,
+  layoutButtonRegister: {
+    margin: 10,
+    alignItems: 'center',
     backgroundColor: "#AEBD91",
-
-  },
-  textOption: {
-    fontSize: 15,
-    color: 'black',
   },
   tinyLogo: {
-    width: 200,
+    width:200,
     height: 200,
-    marginBottom:30,
   },
   button: {
     borderRadius:10,

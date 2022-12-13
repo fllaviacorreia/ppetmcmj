@@ -3,12 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import CryptoJS from "react-native-crypto-js";
 import useStore from "../../store/useStore";
 import firebase from '../../config/firebase.js';
-import { SECRET_KEY } from '@env';
-import { Text, ScrollView, Image, } from 'react-native';
-import {  Button, Divider,  Layout, Modal, Card, IndexPath, } from '@ui-kitten/components';
+import { Text, ScrollView, SafeAreaView, Image, } from 'react-native';
+import { Button, Layout, Modal, Card, IndexPath, } from '@ui-kitten/components';
 
 import SecureText from "../components/secureEntry";
-import { styles } from './styles';
+import { styles } from './stylesRegister';
 import QuestionDate from '../components/componentDate';
 import QuestionText from '../components/componentText';
 import QuestionSelectOption from '../components/componentSelect';
@@ -56,6 +55,7 @@ export const RegisterScreen = () => {
   };
 
   function encrytpInformation(value) {
+    const SECRET_KEY = process.env.SECRET_KEY;
     const encrypted = CryptoJS.AES.encrypt(
       value,
       SECRET_KEY,
@@ -156,12 +156,12 @@ export const RegisterScreen = () => {
   }
 
   function handleSubmit() {
-    if (( isValidAge(dateBorn)
+    if ((isValidAge(dateBorn)
       && isValidCPF(cpf)
       && isValidTypeUser(typeUser)
-      &&isValidPassword(password, confirmPassword))) {
-        typeUser.equals(1) ? setType("acs") : setType("pesquisador");
-        createUser();
+      && isValidPassword(password, confirmPassword))) {
+      typeUser.equals(1) ? setType("acs") : setType("pesquisador");
+      createUser();
     }
   }
 
@@ -177,21 +177,21 @@ export const RegisterScreen = () => {
 
   const maskPhone = value => {
     return value
-    .replace(/\D/g, "")
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d{5})(\d)/, "$1-$2")
-    .replace(/(-\d{4})(\d+?)$/, "$1");
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{5})(\d)/, "$1-$2")
+      .replace(/(-\d{4})(\d+?)$/, "$1");
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.containerScroll}>
       <Layout style={styles.layoutOut}>
         <Layout style={styles.layoutImage}>
           <Image
             style={styles.tinyLogo}
             source={require('../../assets/img/logo.png')}
           />
-          <Divider />
         </Layout>
         <Layout style={styles.layoutIn}>
           <QuestionText
@@ -260,10 +260,6 @@ export const RegisterScreen = () => {
               :
               <Button style={styles.button} status='primary' on onPress={handleSubmit}>Cadastrar</Button>
           }
-          <Layout style={styles.row}>
-            <Button style={styles.button} status="warning" onPress={navigateLogin} appearance='ghost'>Cancelar</Button>
-          </Layout>
-
 
           <Modal
             visible={visible}
@@ -277,8 +273,18 @@ export const RegisterScreen = () => {
             </Card>
           </Modal>
         </Layout>
+        <Layout style={styles.layoutButtonRegister}>
+            <Button
+              style={styles.button}
+              status='warning'
+              onPress={navigateLogin} appearance='ghost'>
+              Cancelar
+            </Button>
+          </Layout>
       </Layout>
+      
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
